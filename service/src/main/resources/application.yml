@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: service
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/stf6?useUnicode=true&allowPublicKeyRetrieval=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 1908218002zjl
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password: 1908218002zjl
+
+sky:
+  jwt:
+    # ??jwt??????????
+    admin-secret-key: arbiterarbiterarbiterarbiterarbiterarbiter
+    # ??jwt????
+    admin-ttl: 7200000
+    # ?????????????
+    admin-token-name: Authorization
+
+upload:
+  path: D:\\vue-project\\imgs  # ??????? ? nginx.conf ????
+  reUrl: http://localhost:80 # nginx???ip??? ? nginx.conf ????
