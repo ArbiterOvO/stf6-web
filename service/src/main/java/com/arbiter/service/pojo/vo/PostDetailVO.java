@@ -65,6 +65,10 @@ public class PostDetailVO {
     private Integer likeCount;
 
     /**
+     * 是否已经点赞 1点赞 0没点赞
+     */
+    private Integer isLiked;
+    /**
      *浏览数
      */
     private Integer viewCount;

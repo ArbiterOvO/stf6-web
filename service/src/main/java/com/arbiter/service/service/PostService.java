@@ -16,4 +16,5 @@ public interface PostService extends IService<Post> {
     PostDetailVO getPostDetailById(Integer postId);
 
     List<PostVO> searchPage(PageSearchDTO pageSearchDTO);
+
 }

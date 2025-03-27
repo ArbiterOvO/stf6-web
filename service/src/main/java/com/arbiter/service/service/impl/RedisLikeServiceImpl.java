@@ -28,18 +28,15 @@ public class RedisLikeServiceImpl implements RedisLikeService {
      */
     @Override
     public void saveLiked2Redis(String likedUserId, String likedPostId) {
-        boolean isLiked = checkIfLiked(likedUserId, likedPostId);
+//        boolean isLiked = checkIfLiked(likedUserId, likedPostId);
+//        if (isLiked)
+//        {
+//            redisTemplate.opsForHash().put(RedisLikeUtil.MAP_KEY_USER_LIKED, key, LikedStatusEnum.UNLIKE.getCode());
+//            decrementLikedCount(likedPostId);
+//        }
         String key = RedisLikeUtil.getLikedKey(likedUserId, likedPostId);
-        if (isLiked)
-        {
-            redisTemplate.opsForHash().put(RedisLikeUtil.MAP_KEY_USER_LIKED, key, LikedStatusEnum.UNLIKE.getCode());
-            decrementLikedCount(likedPostId);
-        }
-        else
-        {
-            redisTemplate.opsForHash().put(RedisLikeUtil.MAP_KEY_USER_LIKED, key, LikedStatusEnum.LIKE.getCode());
-            incrementLikedCount(likedPostId);
-        }
+        redisTemplate.opsForHash().put(RedisLikeUtil.MAP_KEY_USER_LIKED, key, LikedStatusEnum.LIKE.getCode());
+        incrementLikedCount(likedPostId);
 
     }
 
@@ -47,13 +44,13 @@ public class RedisLikeServiceImpl implements RedisLikeService {
     public void unlikeFromRedis(String likedUserId, String likedPostId) {
         String key = RedisLikeUtil.getLikedKey(likedUserId, likedPostId);
         redisTemplate.opsForHash().put(RedisLikeUtil.MAP_KEY_USER_LIKED, key, LikedStatusEnum.UNLIKE.getCode());
+        decrementLikedCount(likedPostId);
     }
 
     @Override
     public boolean checkIfLiked(String likedUserId, String likedPostId) {
         String key = RedisLikeUtil.getLikedKey(likedUserId, likedPostId);
         Integer o = (Integer) redisTemplate.opsForHash().get(RedisLikeUtil.MAP_KEY_USER_LIKED, key);
-        System.out.println(o);
         if (o==null||o.intValue()==LikedStatusEnum.UNLIKE.getCode())
             return false;
         else

@@ -1,5 +1,7 @@
 package com.arbiter.service.service.impl;
 
+import com.arbiter.common.constant.RedisConstant;
+import com.arbiter.common.enums.LikedStatusEnum;
 import com.arbiter.common.po.User;
 import com.arbiter.service.mapper.*;
 import com.arbiter.service.pojo.dto.PageSearchDTO;
@@ -8,6 +10,8 @@ import com.arbiter.service.pojo.po.*;
 import com.arbiter.service.pojo.vo.CommentVO;
 import com.arbiter.service.pojo.vo.PostDetailVO;
 import com.arbiter.service.pojo.vo.PostVO;
+import com.arbiter.service.repository.RedisViewRepository;
+import com.arbiter.service.service.LikeService;
 import com.arbiter.service.service.PostService;
 import com.arbiter.service.service.RedisLikeService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -15,6 +19,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,6 +36,8 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
     private final TagMapper tagMapper;
     private final CommentMapper commentMapper;
     private final RedisLikeService redisLikeService;
+    private final LikeService likeService;
+    private final RedisViewRepository reviewRepository;
 
     public boolean addPost(PostDTO postDTO) {
         Post post = new Post();
@@ -84,12 +91,16 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             tags.add(tag.getName());
         }
         User user = userMapper.selectById(post.getAuthorId());
+        if(!redisLikeService.checkIfLiked(user.getId().toString(),postId.toString())&&likeService.getByLikedUserIdAndLikedPostId(user.getId(),postId)==null)
+            postDetailVO.setIsLiked(LikedStatusEnum.UNLIKE.getCode());
+        else
+            postDetailVO.setIsLiked(LikedStatusEnum.LIKE.getCode());
         postDetailVO.setAuthorName(user.getUsername());
         postDetailVO.setAuthorAvatar(user.getHeadImg());
         postDetailVO.setTags(tags);
         postDetailVO.setCommentCount(comments.size());
         postDetailVO.setLikeCount(post.getLikeNum()+redisLikeService.getLikedCount(post.getId()));
-        postDetailVO.setViewCount(post.getViewNum());
+        postDetailVO.setViewCount(post.getViewNum()+reviewRepository.getViewCountById(post.getId()));
         postDetailVO.setUpdateTime(post.getUpdateTime());
         return postDetailVO;
     }
@@ -119,12 +130,14 @@ public class PostServiceImpl extends ServiceImpl<PostMapper, Post> implements Po
             Long comments = commentMapper.selectCount(new LambdaQueryWrapper<Comment>().eq(Comment::getPostId, post.getId()));
             postVO.setCommentCount(comments.intValue());
             postVO.setLikeCount(post.getLikeNum()+redisLikeService.getLikedCount(post.getId()));
-            postVO.setViewCount(post.getViewNum());
+            postVO.setViewCount(post.getViewNum()+reviewRepository.getViewCountById(post.getId()));
             postVO.setUpdateTime(post.getUpdateTime());
             postVOList.add(postVO);
         }
 
         return postVOList;
     }
+
+
 
 }
