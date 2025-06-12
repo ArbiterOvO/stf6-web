@@ -7,6 +7,10 @@ import java.util.List;
 @Data
 public class PostDTO {
     /**
+     * id
+     */
+    private Integer postId;
+    /**
      * 标题
      */
     private String title;

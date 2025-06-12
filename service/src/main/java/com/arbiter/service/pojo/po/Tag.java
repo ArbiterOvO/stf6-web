@@ -20,4 +20,9 @@ public class Tag extends BaseEntity {
      */
     private String name;
 
+    /**
+     * TagType
+     * 0 热门 1角色
+     */
+    private Integer tagType;
 }

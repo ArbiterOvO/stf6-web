@@ -40,7 +40,7 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
 
         //1、从请求头中获取令牌
         String token = request.getHeader(jwtProperties.getAdminTokenName());
-        if (token.isEmpty()) {
+        if (token == null || token.isEmpty()) {
             throw new JwtException("令牌为空，请重新登陆");
         }
         //2、校验令牌

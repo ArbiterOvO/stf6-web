@@ -54,9 +54,14 @@ public class PostVO {
     private Integer likeCount;
 
     /**
-     *浏览数
+     * 浏览数
      */
     private Integer viewCount;
+
+    /**
+     * 是否已审核
+     */
+    private Integer isChecked;
 
     /**
      * 更新时间

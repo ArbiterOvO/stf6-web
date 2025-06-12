@@ -1,49 +1,34 @@
 package com.arbiter.service.pojo.po;
 
 import com.arbiter.service.pojo.BaseEntity;
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
-@TableName(value ="post")
 @Data
-public class Post extends BaseEntity{
+@TableName("comment2_like")
+public class Comment2Like extends BaseEntity {
 
+    @TableField(exist = false)
+    private Integer id;
+    /**
+     * 2级评论id
+     */
+    private Integer comment2Id;
 
     /**
-     * 帖子名
+     * 用户id
      */
-    private String title;
-
+    private Integer userId;
     /**
-     * 帖子内容
+     * 点赞状态 1点赞 0取消
      */
-    private String content;
-
-    /**
-     * 发布人id
-     */
-    private Integer authorId;
-
-    /**
-     * 点赞数
-     */
-    private Integer likeNum;
-
-    /**
-     * 访问数
-     */
-    private Integer viewNum;
-
-    /**
-     * 是否已审核
-     */
-    private Integer isChecked;
+    private Integer likedStatus;
 
     /**
      * 插入时间

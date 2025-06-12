@@ -20,6 +20,12 @@ public interface RedisLikeService {
      */
     void unlikeFromRedis(String likedUserId, String likedPostId);
 
+    /**
+     * 判断redis中是否已经点赞
+     * @param likedUserId
+     * @param likedPostId
+     * @return
+     */
     boolean checkIfLiked(String likedUserId, String likedPostId);
 
     /**
@@ -52,4 +58,11 @@ public interface RedisLikeService {
      * @return
      */
     List<LikedCountDTO> getLikedCountFromRedis();
+
+    /**
+     * 获取点赞的所有帖子
+     * @param userId
+     * @return
+     */
+    List<Integer> getLikedPostId(Integer userId);
 }

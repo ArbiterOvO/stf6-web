@@ -5,14 +5,13 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
-public class CommentVO {
-
+public class Comment2VO {
     /**
-     * 评论id
+     * 2级评论id
      */
     private Integer id;
 
@@ -22,9 +21,9 @@ public class CommentVO {
     private String content;
 
     /**
-     * 评论表id
+     * 评论id
      */
-    private Integer postId;
+    private Integer commentId;
 
     /**
      * 用户id
@@ -49,15 +48,10 @@ public class CommentVO {
      */
     private Integer likedNum;
     /**
-     *二级评论
-     */
-    private List<Comment2VO> comment2VoList;
-    /**
      * 插入时间
      */
     @TableField(fill = FieldFill.INSERT,exist = true)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
-
 }

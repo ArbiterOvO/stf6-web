@@ -1,49 +1,36 @@
 package com.arbiter.service.pojo.po;
 
 import com.arbiter.service.pojo.BaseEntity;
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
 
-@TableName(value ="post")
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
-public class Post extends BaseEntity{
-
-
-    /**
-     * 帖子名
-     */
-    private String title;
+public class CommentLike extends BaseEntity {
+    @TableField(exist = false)
+    private Integer id;
 
     /**
-     * 帖子内容
+     * 评论id
      */
-    private String content;
+    private Integer commentId;
 
     /**
-     * 发布人id
+     * 用户id
      */
-    private Integer authorId;
-
+    private Integer userId;
     /**
-     * 点赞数
+     * 点赞状态 1点赞 0取消
      */
-    private Integer likeNum;
-
-    /**
-     * 访问数
-     */
-    private Integer viewNum;
-
-    /**
-     * 是否已审核
-     */
-    private Integer isChecked;
+    private Integer likedStatus;
 
     /**
      * 插入时间

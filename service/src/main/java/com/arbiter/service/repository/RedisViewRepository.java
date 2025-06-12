@@ -34,6 +34,10 @@ public class RedisViewRepository {
             Integer key = Integer.parseInt(entry.getKey().toString()) ;
             Integer count = Integer.parseInt(entry.getValue().toString()) ;
             Post post = postMapper.selectById(key);
+            if(post==null) {
+                redisTemplate.opsForHash().delete(RedisConstant.MAP_KEY_Post_VIEW, key.toString());
+                continue;
+            }
             post.setViewNum(post.getViewNum()+count);
             postMapper.updateById(post);
 

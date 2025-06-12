@@ -1,5 +1,6 @@
 package com.arbiter.service.service;
 
+import com.arbiter.common.po.User;
 import com.arbiter.service.pojo.dto.PageSearchDTO;
 import com.arbiter.service.pojo.dto.PostDTO;
 import com.arbiter.service.pojo.po.Post;
@@ -17,4 +18,7 @@ public interface PostService extends IService<Post> {
 
     List<PostVO> searchPage(PageSearchDTO pageSearchDTO);
 
+    List<PostVO> getCollectedPosts(User user);
+
+    void updatePost(PostDTO postDTO);
 }

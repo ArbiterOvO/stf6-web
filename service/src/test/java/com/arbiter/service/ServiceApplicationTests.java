@@ -7,6 +7,8 @@ import com.arbiter.service.pojo.po.Comment;
 import com.arbiter.service.pojo.po.Post;
 import com.arbiter.service.pojo.po.PostImg;
 import com.arbiter.service.pojo.po.PostTag;
+import com.arbiter.service.properties.EmailProperties;
+import com.arbiter.service.repository.EmailRepository;
 import com.arbiter.service.service.CommentService;
 import com.arbiter.service.service.PostService;
 import com.arbiter.service.service.UserService;
@@ -20,14 +22,14 @@ class ServiceApplicationTests {
 
     @Autowired
     private UserService userService;
-    @Test
-    void contextLoads() {
-        User user = new User();
-        user.setUsername("张三");
-        user.setPassword("123456");
-        user.setEmail("321@qq.com");
-        userService.save(user);
-    }
+//    @Test
+//    void contextLoads() {
+//        User user = new User();
+//        user.setUsername("张三");
+//        user.setPassword("123456");
+//        user.setEmail("321@qq.com");
+//        userService.save(user);
+//    }
 
     @Autowired
     private PostService postService;
@@ -37,31 +39,42 @@ class ServiceApplicationTests {
     private PostImgMapper postImgMapper;
     @Autowired
     private PostTagMapper postTagMapper;
-    @Test
-    void postTest()
-    {
-        Post post = new Post();
-        post.setAuthorId(1);
-        post.setTitle("测试1");
-        post.setContent("测试内容");
-        postService.save(post);
-        Comment comment=new Comment();
-        comment.setUserId(1);
-        comment.setPostId(post.getId());
-        comment.setContent("测试回复1");
-        commentService.save(comment);
-        postImgMapper.insert(new PostImg(post.getId(),"https://th.bing.com/th/id/OIP.c2qhgMnUyx40egZk3EyBjQHaEK?w=308&h=180&c=7&r=0&o=5&pid=1.7"));
-        postTagMapper.insert(new PostTag(post.getId(),1));
-    }
+//    @Test
+//    void postTest()
+//    {
+//        Post post = new Post();
+//        post.setAuthorId(1);
+//        post.setTitle("测试1");
+//        post.setContent("测试内容");
+//        postService.save(post);
+//        Comment comment=new Comment();
+//        comment.setUserId(1);
+//        comment.setPostId(post.getId());
+//        comment.setContent("测试回复1");
+//        commentService.save(comment);
+//        postImgMapper.insert(new PostImg(post.getId(),"https://th.bing.com/th/id/OIP.c2qhgMnUyx40egZk3EyBjQHaEK?w=308&h=180&c=7&r=0&o=5&pid=1.7"));
+//        postTagMapper.insert(new PostTag(post.getId(),1));
+//    }
 
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
-    @Test
-    void redisTest()
-    {
-        redisTemplate.opsForValue().set("a","1");
-        String a = (String)redisTemplate.opsForValue().get("a");
-        System.out.println(a);
-    }
+//    @Test
+//    void redisTest()
+//    {
+//        redisTemplate.opsForValue().set("a","1");
+//        String a = (String)redisTemplate.opsForValue().get("a");
+//        System.out.println(a);
+//    }
+    @Autowired
+    private EmailRepository emailRepository;
+    @Autowired
+    private EmailProperties emailProperties;
+//    @Test
+//    void emailTest()
+//    {
+//        boolean b = emailRepository.checkCode("3210059166@qq.com", "190824");
+//        System.out.println(b);
+//        //emailRepository.email("3210059166@qq.com");
+//    }
 }

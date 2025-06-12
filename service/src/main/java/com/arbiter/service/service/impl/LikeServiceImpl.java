@@ -71,7 +71,6 @@ public class LikeServiceImpl implements LikeService {
             if (post != null){
                 Integer likeNum = post.getLikeNum() + dto.getLikedCount();
                 post.setLikeNum(likeNum);
-                System.out.println(post.toString());
                 //更新点赞数量
                 postMapper.updateById(post);
             }

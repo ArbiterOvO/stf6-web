@@ -10,4 +10,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface CommentService extends IService<Comment> {
 
+    void likeComment(Integer commentId, Integer userId);
+    void unlikeComment(Integer commentId, Integer userId);
+    boolean checkLikeComment(Integer commentId, Integer userId);
 }

@@ -1,6 +1,7 @@
 package com.arbiter.service.service;
 
 import com.arbiter.service.pojo.po.Tag;
+import com.arbiter.service.pojo.vo.ForumTagsVO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -10,4 +11,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface TagService extends IService<Tag> {
 
+    ForumTagsVO getAllForumTagList();
 }

@@ -112,6 +112,30 @@ public class RedisLikeServiceImpl implements RedisLikeService {
         return list;
     }
 
+    /**
+     * 获取所有点赞的帖子Id 通过用户id
+     * @param userId
+     * @return
+     */
+    public List<Integer> getLikedPostId(Integer userId){
+        Cursor<Map.Entry<Object, Object>> cursor = redisTemplate.opsForHash().scan(RedisLikeUtil.MAP_KEY_USER_LIKED, ScanOptions.NONE);
+        List<Integer> postIdList = new ArrayList<>();
+        while (cursor.hasNext()){
+            Map.Entry<Object, Object> entry = cursor.next();
+            String key = (String) entry.getKey();
+            //分离出 likedUserId，likedPostId
+            String[] split = key.split("::");
+            String likedUserId = split[0];
+            String likedPostId = split[1];
+            Integer value = (Integer) entry.getValue();
+
+            if (LikedStatusEnum.LIKE.getCode().equals(value)&&userId.toString().equals(likedUserId)){
+                postIdList.add(Integer.parseInt(likedPostId));
+            }
+        }
+        return postIdList;
+    }
+
     @Override
     public List<LikedCountDTO> getLikedCountFromRedis() {
         Cursor<Map.Entry<Object, Object>> cursor = redisTemplate.opsForHash().scan(RedisLikeUtil.MAP_KEY_USER_LIKED_COUNT, ScanOptions.NONE);

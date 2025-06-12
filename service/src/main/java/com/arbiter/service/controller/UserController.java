@@ -7,15 +7,16 @@ import com.arbiter.common.po.User;
 import com.arbiter.common.result.Result;
 import com.arbiter.common.util.JwtUtil;
 import com.arbiter.common.util.ThreadLocalUtil;
+import com.arbiter.service.pojo.dto.RegisterDTO;
 import com.arbiter.service.pojo.dto.UserLoginDTO;
 import com.arbiter.service.properties.JwtProperties;
+import com.arbiter.service.repository.EmailRepository;
 import com.arbiter.service.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Instant;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +25,11 @@ import java.util.Map;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
     private final JwtProperties jwtProperties;
+    private final EmailRepository emailRepository;
+
     @GetMapping("/all")
     public Result<List<User>> getAllUser()
     {
@@ -56,9 +60,23 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public Result<String> register(@RequestBody User user){
-        boolean save = userService.save(user);
-        return save?Result.success():Result.error("注册失败！");
+    public Result<String> register(@RequestBody RegisterDTO registerDTO){
+
+        String emailCode = registerDTO.getEmailCode();
+        log.info("emailCode:{}",registerDTO.getEmail());
+        if(emailRepository.checkCode(registerDTO.getEmail(), emailCode))
+        {
+            User user=new User();
+            user.setUsername(registerDTO.getUsername());
+            user.setPassword(registerDTO.getPassword());
+            user.setEmail(registerDTO.getEmail());
+            boolean save = userService.save(user);
+            return save?Result.success():Result.error("注册失败！");
+        }
+        else {
+            return Result.error("邮箱验证码错误");
+        }
+
     }
 
     @GetMapping("/current")
@@ -69,5 +87,12 @@ public class UserController {
         JSONObject jsonObject= JSON.parseObject(JSON.toJSONString(currentUser));
         return Result.success(jsonObject);
     }
+
+    @PostMapping("/email/{addr}")
+    public Result<Integer> postEmail(@PathVariable String addr){
+        emailRepository.emailCode(addr);
+        return Result.success();
+    }
+
 
 }

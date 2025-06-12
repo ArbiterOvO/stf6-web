@@ -16,7 +16,7 @@ public class PostDetailVO {
     /**
      * 帖子Id
      */
-    private int postId;
+    private Integer postId;
     /**
      * 标题
      */
