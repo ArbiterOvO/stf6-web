@@ -18,8 +18,8 @@ public class FileService {
         FileUtil.mkdir(UploadConfig.path );
         log.info("目录创建成功或已存在");
 
-//        String newPath = UploadConfig.path  + "/"+fileName;
-        String newPath = UploadConfig.path  + "\\"+fileName;
+        String newPath = UploadConfig.path  + "/"+fileName;
+//        String newPath = UploadConfig.path  + "\\"+fileName;
         log.info("准备写入文件到: {}", newPath);
         FileUtils.write(newPath, file.getInputStream());
         log.info("文件写入成功");

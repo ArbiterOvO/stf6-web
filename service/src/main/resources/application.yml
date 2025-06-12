@@ -12,12 +12,12 @@ spring:
     name: service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/stf6?useUnicode=true&allowPublicKeyRetrieval=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
-#    url: jdbc:mysql://47.110.248.94:3306/stf6?useUnicode=true&allowPublicKeyRetrieval=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
-#    username: stf6
-#    password: cxSeJMapipBCbSwx
-    username: root
-    password: 1908218002zjl
+#    url: jdbc:mysql://localhost:3306/stf6?useUnicode=true&allowPublicKeyRetrieval=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://47.110.248.94:3306/stf6?useUnicode=true&allowPublicKeyRetrieval=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: stf6
+    password: cxSeJMapipBCbSwx
+#    username: root
+#    password: 1908218002zjl
 
   data:
     redis:
@@ -37,10 +37,10 @@ sky:
     admin-token-name: Authorization
 logging:
   file:
-#    name: /www/wwwroot/java/log/app-log.log
-    name: /logs
+    name: /www/wwwroot/java/log/app-log.log
+#    name: /logs
 upload:
-  path: D:\\vue-project\\imgs  # ??????? ? nginx.conf ????
-#  path: /www/wwwroot/img  # ??????? ? nginx.conf ????
-#  reUrl: http://47.110.248.94:888 # nginx???ip??? ? nginx.conf ????
-  reUrl: http://localhost:80 # nginx???ip??? ? nginx.conf ????
+#  path: D:\\vue-project\\imgs  # ??????? ? nginx.conf ????
+  path: /www/wwwroot/img  # ??????? ? nginx.conf ????
+  reUrl: http://47.110.248.94:888 # nginx???ip??? ? nginx.conf ????
+#  reUrl: http://localhost:80 # nginx???ip??? ? nginx.conf ????
